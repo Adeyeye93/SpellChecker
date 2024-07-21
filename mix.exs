@@ -7,7 +7,18 @@ defmodule SpellChecker.MixProject do
       version: "0.1.0",
       elixir: "~> 1.15",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      description: description(),
+      package: package(),
+      deps: deps(),
+      name: "spell_checker",
+      source_url: "https://github.com/Adeyeye93/SpellChecker",
+      docs: [
+        main: "SpellChecker",
+        extras: ["README.md"]
+      ]
     ]
   end
 
@@ -21,7 +32,22 @@ defmodule SpellChecker.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:ex_doc, "~> 0.29", only: :dev, runtime: false},
       {:simetric, "~> 0.2.0"}
+    ]
+  end
+
+  defp description() do
+    "The SpellChecker module checks word correctness and suggests alternatives."
+  end
+
+  defp package() do
+    [
+      name: "spell_checker",
+      licenses: ["Apache-2.0"],
+      links: %{"GitHub" => "https://github.com/Adeyeye93/SpellChecker"},
+      maintainers: ["Adeyeye Seyi"],
+      files: ~w(lib mix.exs README* LICENSE* test)
     ]
   end
 end

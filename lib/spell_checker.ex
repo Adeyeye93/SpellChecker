@@ -32,7 +32,7 @@ defmodule SpellChecker do
 
       iex> words = ["hello", "worlld", "Programming"]
       iex> correct_words = SpellChecker.is_correct?(words)
-      iex> ["hello", "Elixir"]
+      iex> ["hello", "Programming"]
 
   """
   def is_correct?([new_word | rest], acc) do
