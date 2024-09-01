@@ -4,7 +4,7 @@ defmodule SpellChecker.MixProject do
   def project do
     [
       app: :spell_checker,
-      version: "0.1.0",
+      version: "0.1.1",
       elixir: "~> 1.15",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -33,7 +33,6 @@ defmodule SpellChecker.MixProject do
   defp deps do
     [
       {:ex_doc, "~> 0.29", only: :dev, runtime: false},
-      {:simetric, "~> 0.2.0"}
     ]
   end
 

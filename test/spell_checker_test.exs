@@ -3,6 +3,6 @@ defmodule SpellCheckerTest do
   doctest SpellChecker
 
   test "Read the words" do
-    assert SpellChecker.is_correct!("wrong")
+    assert SpellChecker.is_correct!("worlld")
   end
 end

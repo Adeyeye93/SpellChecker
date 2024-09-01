@@ -31,8 +31,8 @@ defmodule SpellChecker do
   ## Examples
 
       iex> words = ["hello", "worlld", "Programming"]
-      iex> correct_words = SpellChecker.is_correct?(words)
-      iex> ["hello", "Programming"]
+      iex> SpellChecker.is_correct?(words)
+      ["Programming", "hello"]
 
   """
   def is_correct?([new_word | rest], acc) do
@@ -59,9 +59,9 @@ defmodule SpellChecker do
   ## Examples
 
       iex> SpellChecker.is_correct("hello")
-      iex> {:ok, true}
+      {:ok, true}
       iex> SpellChecker.is_correct("worlld")
-      iex> {:none, false}
+      {:none, false}
 
   """
   def is_correct(word) when is_bitstring(word) and word != "" do
@@ -87,9 +87,9 @@ defmodule SpellChecker do
   ## Examples
 
       iex> SpellChecker.is_correct!("hello")
-      iex> {:ok, true}
-      iex> SpellChecker.is_correct!("worlld", 3)
-      iex> ["world", "word", "would"]
+      {:ok, true}
+      iex> SpellChecker.is_correct!("worlld", 5)
+      ["unworldly", "worldling", "word", "world", "worldly"]
 
   """
   def is_correct!(word, suggest \\ 5) when is_bitstring(word) and word != "" do
@@ -103,12 +103,14 @@ defmodule SpellChecker do
   end
 
   defp suggest(word, suggest) do
-    Enum.reduce(load_word_list() |> Enum.to_list(), [], fn e, acc ->
-      if Simetric.Jaro.Winkler.compare(e, word) > 0.85 do
-        [e | acc]
-      else
-        acc
-        |> Enum.slice(0..suggest)
+    Enum.reduce_while(load_word_list() |> Enum.to_list(), [], fn e, acc ->
+      case String.jaro_distance(e, word)  do
+        value when value > 0.83 and length(acc) <= suggest ->
+        {:cont, [e | acc]}
+        value when value < 2 and length(acc) === suggest ->
+       {:halt, acc}
+       _ ->
+       {:cont, acc}
       end
     end)
   end
